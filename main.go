@@ -9,6 +9,7 @@ func main() {
 	http.HandleFunc("/", patientcontroller.Index)
 	http.HandleFunc("/patient", patientcontroller.Index)
 	http.HandleFunc("/patient/index", patientcontroller.Index)
+	http.HandleFunc("/patient/add", patientcontroller.Add)
 
 	http.ListenAndServe(":3000", nil)
 }
