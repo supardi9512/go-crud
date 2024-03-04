@@ -10,13 +10,20 @@ import (
 var patientModel = models.NewPatientModel()
 
 func Index(response http.ResponseWriter, request *http.Request) {
+
+	patient, _ := patientModel.FindAll()
+
+	data := map[string]interface{}{
+		"patient": patient,
+	}
+
 	temp, err := template.ParseFiles("views/patient/index.html")
 
 	if err != nil {
 		panic(err)
 	}
 
-	temp.Execute(response, nil)
+	temp.Execute(response, data)
 }
 
 func Add(response http.ResponseWriter, request *http.Request) {

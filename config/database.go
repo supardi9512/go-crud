@@ -7,10 +7,10 @@ import (
 )
 
 func DBConnection() (*sql.DB, error) {
-	dbDriver := "msql"
+	dbDriver := "mysql"
 	dbUser := "root"
 	dbPass := ""
-	dbName := "patients"
+	dbName := "go_crud"
 
 	db, err := sql.Open(dbDriver, dbUser+":"+dbPass+"@/"+dbName)
 
