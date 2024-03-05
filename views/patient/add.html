@@ -26,41 +26,62 @@
         <form action="/patient/add" method="POST">
             <div class="form-group">
                 <label for="name">Name</label>
-                <input type="text" name="name" id="name" class="form-control">
+                <input type="text" name="name" id="name" class="form-control {{ if .validation.Name }} is-invalid {{ end }}" value="{{ .patient.Name }}" autocomplete="off">
+                <div class="invalid-feedback">
+                    {{ .validation.Name }}
+                </div>
             </div>
             <br>
             <div class="form-group">
                 <label for="nik">NIK</label>
-                <input type="text" name="nik" id="nik" class="form-control">
+                <input type="text" name="nik" id="nik" class="form-control {{ if .validation.Nik }} is-invalid {{ end }}" value="{{ .patient.Nik }}" autocomplete="off">
+                <div class="invalid-feedback">
+                    {{ .validation.Nik }}
+                </div>
             </div>
             <br>
             <div class="form-group">
                 <label for="gender">Gender</label>
-                <select name="gender" id="gender" class="form-control">
+                <select name="gender" id="gender" class="form-control {{ if .validation.Gender }} is-invalid {{ end }}" value="{{ .patient.Gender }}">
                     <option value="">Choose Gender</option>
-                    <option value="1">Male</option>
-                    <option value="2">Female</option>
+                    <option value="1" {{ if eq .patient.Gender `1` }} selected {{ end }}>Male</option>
+                    <option value="2" {{ if eq .patient.Gender `2` }} selected {{ end }}>Female</option>
                 </select>
+                <div class="invalid-feedback">
+                    {{ .validation.Gender }}
+                </div>
             </div>
             <br>
             <div class="form-group">
                 <label for="place_of_birth">Place of Birth</label>
-                <input type="text" name="place_of_birth" id="place_of_birth" class="form-control">
+                <input type="text" name="place_of_birth" id="place_of_birth" class="form-control {{ if .validation.PlaceOfBirth }} is-invalid {{ end }}" value="{{ .patient.PlaceOfBirth }}" autocomplete="off">
+                <div class="invalid-feedback">
+                    {{ .validation.PlaceOfBirth }}
+                </div>
             </div>
             <br>
             <div class="form-group">
                 <label for="date_of_birth">Date of Birth</label>
-                <input type="date" name="date_of_birth" id="date_of_birth" class="form-control">
+                <input type="date" name="date_of_birth" id="date_of_birth" class="form-control {{ if .validation.DateOfBirth }} is-invalid {{ end }}" value="{{ .patient.DateOfBirth }}" autocomplete="off">
+                <div class="invalid-feedback">
+                    {{ .validation.DateOfBirth }}
+                </div>
             </div>
             <br>
             <div class="form-group">
                 <label for="address">Address</label>
-                <textarea name="address" id="address" class="form-control"></textarea>
+                <textarea name="address" id="address" class="form-control {{ if .validation.Address }} is-invalid {{ end }}" autocomplete="off">{{ .patient.Address }}</textarea>
+                <div class="invalid-feedback">
+                    {{ .validation.Address }}
+                </div>
             </div>
             <br>
             <div class="form-group">
                 <label for="phone_number">Phone Number</label>
-                <input type="text" name="phone_number" id="phone_number" class="form-control">
+                <input type="text" name="phone_number" id="phone_number" class="form-control {{ if .validation.PhoneNumber }} is-invalid {{ end }}" value="{{ .patient.PhoneNumber }}" autocomplete="off">
+                <div class="invalid-feedback">
+                    {{ .validation.PhoneNumber }}
+                </div>
             </div>
             <br>
             <div class="form-group">
