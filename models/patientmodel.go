@@ -71,3 +71,13 @@ func (p *PatientModel) Create(patient entities.Patient) bool {
 func (p *PatientModel) Find(id int64, patient *entities.Patient) error {
 	return p.conn.QueryRow("SELECT * FROM patients WHERE id = ?", id).Scan(&patient.Id, &patient.Name, &patient.Nik, &patient.Gender, &patient.PlaceOfBirth, &patient.DateOfBirth, &patient.Address, &patient.PhoneNumber)
 }
+
+func (p *PatientModel) Update(patient entities.Patient) error {
+	_, err := p.conn.Exec("UPDATE patients SET name = ?, nik = ?, gender = ?, place_of_birth = ?, date_of_birth = ?, address = ?, phone_number = ? WHERE id = ?", patient.Name, patient.Nik, patient.Gender, patient.PlaceOfBirth, patient.DateOfBirth, patient.Address, patient.PhoneNumber, patient.Id)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

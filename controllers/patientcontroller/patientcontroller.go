@@ -69,23 +69,55 @@ func Add(response http.ResponseWriter, request *http.Request) {
 }
 
 func Edit(response http.ResponseWriter, request *http.Request) {
+	if request.Method == http.MethodGet {
 
-	queryString := request.URL.Query()
-	id, _ := strconv.ParseInt(queryString.Get("id"), 10, 64)
+		queryString := request.URL.Query()
+		id, _ := strconv.ParseInt(queryString.Get("id"), 10, 64)
 
-	var patient entities.Patient
-	patientModel.Find(id, &patient)
+		var patient entities.Patient
+		patientModel.Find(id, &patient)
 
-	data := map[string]interface{}{
-		"patient": patient,
+		data := map[string]interface{}{
+			"patient": patient,
+		}
+
+		temp, err := template.ParseFiles("views/patient/edit.html")
+
+		if err != nil {
+			panic(err)
+		}
+
+		temp.Execute(response, data)
+
+	} else if request.Method == http.MethodPost {
+
+		request.ParseForm()
+
+		var patient entities.Patient
+
+		patient.Id, _ = strconv.ParseInt(request.Form.Get("id"), 10, 64)
+		patient.Name = request.Form.Get("name")
+		patient.Nik = request.Form.Get("nik")
+		patient.Gender = request.Form.Get("gender")
+		patient.PlaceOfBirth = request.Form.Get("place_of_birth")
+		patient.DateOfBirth = request.Form.Get("date_of_birth")
+		patient.Address = request.Form.Get("address")
+		patient.PhoneNumber = request.Form.Get("phone_number")
+
+		var data = make(map[string]interface{})
+
+		vErrors := validation.Struct(patient)
+
+		if vErrors != nil {
+			data["patient"] = patient
+			data["validation"] = vErrors
+		} else {
+			data["message"] = "Patient data has been updated successfully"
+			patientModel.Update(patient)
+		}
+
+		temp, _ := template.ParseFiles("views/patient/edit.html")
+		temp.Execute(response, data)
+
 	}
-
-	temp, err := template.ParseFiles("views/patient/edit.html")
-
-	if err != nil {
-		panic(err)
-	}
-
-	temp.Execute(response, data)
-
 }
