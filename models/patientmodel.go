@@ -81,3 +81,7 @@ func (p *PatientModel) Update(patient entities.Patient) error {
 
 	return nil
 }
+
+func (p *PatientModel) Delete(id int64) {
+	p.conn.Exec("DELETE FROM patients WHERE id = ?", id)
+}

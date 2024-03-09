@@ -121,3 +121,13 @@ func Edit(response http.ResponseWriter, request *http.Request) {
 
 	}
 }
+
+func Delete(response http.ResponseWriter, request *http.Request) {
+
+	queryString := request.URL.Query()
+	id, _ := strconv.ParseInt(queryString.Get("id"), 10, 64)
+
+	patientModel.Delete(id)
+
+	http.Redirect(response, request, "/patient", http.StatusSeeOther)
+}
