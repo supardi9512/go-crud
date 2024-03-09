@@ -6,6 +6,7 @@ import (
 	"go-crud/models"
 	"html/template"
 	"net/http"
+	"strconv"
 )
 
 var validation = libraries.NewValidation()
@@ -65,4 +66,26 @@ func Add(response http.ResponseWriter, request *http.Request) {
 		temp, _ := template.ParseFiles("views/patient/add.html")
 		temp.Execute(response, data)
 	}
+}
+
+func Edit(response http.ResponseWriter, request *http.Request) {
+
+	queryString := request.URL.Query()
+	id, _ := strconv.ParseInt(queryString.Get("id"), 10, 64)
+
+	var patient entities.Patient
+	patientModel.Find(id, &patient)
+
+	data := map[string]interface{}{
+		"patient": patient,
+	}
+
+	temp, err := template.ParseFiles("views/patient/edit.html")
+
+	if err != nil {
+		panic(err)
+	}
+
+	temp.Execute(response, data)
+
 }
